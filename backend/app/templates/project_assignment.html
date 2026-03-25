@@ -11,7 +11,7 @@
 
 <br />
 
-<form action="/profile" method="post">
+<form id="project-form" action="/profile" method="post">
     Full Name: <input type="text" name="full_name" required>
 
     <br /><br />
@@ -69,33 +69,7 @@
     <input type="reset" value="Clear Form">
 </form>
 
-
-<script>
-document.querySelector("form").addEventListener("submit", function (e) {
-    const projects = document.querySelector('select[name="projects"]');
-    const selected = Array.from(projects.options).filter(option => option.selected);
-
-    if (selected.length === 0) {
-        alert("Please select at least one project.");
-        e.preventDefault();
-    }
-});
-</script>
-
-<script>
-fetch("/projects")
-  .then(res => res.json())
-  .then(data => {
-    const select = document.getElementById("projects");
-
-    data.forEach(project => {
-      const option = document.createElement("option");
-      option.value = project.id;
-      option.textContent = project.name;
-      select.appendChild(option);
-    });
-  });
-</script>
+<script src="{{ url_for('static', filename='main.js') }}"></script>
 
 </body>
 </html>
