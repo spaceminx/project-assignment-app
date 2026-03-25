@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Assignment Form</title>
+</head>
+<body>
+
+<h2>Project Assignment Form</h2>
+
+<p>Complete your profile to get assigned to internal projects.</p>
+
+<br />
+
+<form action="/profile" method="post">
+    Full Name: <input type="text" name="full_name" required>
+
+    <br /><br />
+
+    Email Address: <input type="email" name="email" required>
+
+    <br /><br />
+
+    Experience Level:
+    <select name="experience_level" required>
+        <option value="">Select your level</option>
+        <option value="junior">Junior (0-2 years)</option>
+        <option value="mid">Mid-level (2-5 years)</option>
+        <option value="senior">Senior (5+ years)</option>
+    </select>
+
+    <br /><br />
+
+    Primary Technology Stack:
+    <select name="tech_stack" required>
+        <option value="">Choose one</option>
+        <option value="backend">Backend Development</option>
+        <option value="frontend">Frontend Development</option>
+        <option value="fullstack">Full-Stack Development</option>
+        <option value="data">Data Engineering</option>
+        <option value="devops">DevOps</option>
+        <option value="mobile">Mobile Development</option>
+    </select>
+
+    <br /><br />
+
+    Available Projects:
+    <select name="projects" id="projects" multiple size="8"></select>
+
+    <br /><br />
+
+    Preferred Project Duration:
+    <input type="radio" name="project_duration" value="short" required> Short-term (1-3 months)
+    <input type="radio" name="project_duration" value="medium"> Medium-term (3-6 months)
+    <input type="radio" name="project_duration" value="long"> Long-term (6+ months)
+
+    <br /><br />
+
+    Additional Skills (optional):
+    <input type="text" name="additional_skills" placeholder="e.g., Python, Docker, React">
+
+    <br /><br />
+
+    <input type="checkbox" name="availability" value="true" required>
+        I confirm my availability for the selected projects
+
+    <br /><br />
+
+    <input type="submit" value="Save Profile">
+    <input type="reset" value="Clear Form">
+</form>
+
+
+<script>
+document.querySelector("form").addEventListener("submit", function (e) {
+    const projects = document.querySelector('select[name="projects"]');
+    const selected = Array.from(projects.options).filter(option => option.selected);
+
+    if (selected.length === 0) {
+        alert("Please select at least one project.");
+        e.preventDefault();
+    }
+});
+</script>
+
+<script>
+fetch("/projects")
+  .then(res => res.json())
+  .then(data => {
+    const select = document.getElementById("projects");
+
+    data.forEach(project => {
+      const option = document.createElement("option");
+      option.value = project.id;
+      option.textContent = project.name;
+      select.appendChild(option);
+    });
+  });
+</script>
+
+</body>
+</html>
