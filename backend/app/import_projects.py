@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 from pathlib import Path
 
-from app import create_app
-from app.database import db
-from app.models import Project
+from . import create_app
+from .database import db
+from .models import Project
 
 HTML_FILE = Path(__file__).resolve().parent.parent / "data" / "project_assignment.html"
 
@@ -29,20 +29,20 @@ def extract_projects():
     return projects
 
 def import_projects():
-    app = create_app()
+    projects = extract_projects()
 
-    with app.app_context():
-        projects = extract_projects()
+    project_count = 0
+    for project in projects:
+        existing = Project.query.filter_by(name=project).first()
+        if not existing:
+            db.session.add(Project(name=project))
+            project_count += 1
 
-        project_count = 0
-        for project in projects:
-            existing = Project.query.filter_by(name=project).first()
-            if not existing:
-                db.session.add(Project(name=project))
-                project_count += 1
-
-        db.session.commit()
-        print(f"Imported {project_count} new projects.")
+    db.session.commit()
+    return project_count
 
 if __name__ == "__main__":
-    import_projects()
+    app = create_app()
+    with app.app_context():
+        added = import_projects()
+        print(F"Imported {added} projects.")
