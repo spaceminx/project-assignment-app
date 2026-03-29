@@ -222,10 +222,11 @@ useEffect(() => {
 
         <div className="form-group">
           <label>Additional Skills</label>
-          <input
+          <textarea
             name="additional_skills"
             value={form.additional_skills}
             onChange={handleChange}
+            rows={4}
           />
         </div>
 

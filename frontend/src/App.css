@@ -41,6 +41,17 @@ label {
   margin-bottom: 8px;
 }
 
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #cfd6dd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  resize: vertical;
+}
+
 input[type="text"],
 input[type="email"],
 select {
