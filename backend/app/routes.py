@@ -21,7 +21,7 @@ def save_profile():
         "tech_stack" : request.form.get("tech_stack", "").strip(),
         "project_duration" : request.form.get("project_duration", "").strip(),
         "additional_skills" : request.form.get("additional_skills", "").strip(),
-        "availability" : request.form.get("availability", "").strip(),
+        "availability" : request.form.get("availability"),
         "projects" : request.form.getlist("projects"),
     }
 
@@ -42,7 +42,6 @@ def save_profile():
 @api.route("/projects", methods=["GET"])
 def get_projects():
     projects = Project.query.all()
-
     return jsonify([
         {"id": p.id, "name": p.name} for p in projects
     ])
